@@ -1,0 +1,28 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace tabela_rendimento_e_investimento
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            // Valores iniciais
+            double taxa = 5.3 / 100; int meses = 6 * 2;
+            double valorInicial = 1000;
+            double valorFinal = valorInicial * Math.Pow(1 + taxa, meses);
+            Console.WriteLine($"Valor final:{valorFinal:C}");
+            
+
+            Console.ReadLine();
+            // 6 meses por ano, por 2 anos 
+
+            // Cálculo do valor final             
+            // Exibindo o resultado            
+
+        }
+    }
+}
