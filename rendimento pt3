@@ -1,0 +1,29 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace rendimento_3
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            double valor_presente = 68;
+            double juros = 2;
+            int t_anos = 3;
+            double renda_final = 72.16;
+            Console.WriteLine($"o periodo de tempo é: {t_anos} anos");
+            Console.WriteLine($"a taxa de juros é: {juros}%");
+            Console.WriteLine($"o valor presente é: {valor_presente}R$");
+            Console.WriteLine($"a renda final é: {renda_final}R$");
+
+
+
+            Console.ReadLine();
+
+        }
+    }
+}
