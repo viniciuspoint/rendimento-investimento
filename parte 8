@@ -1,0 +1,42 @@
+using System;
+using System.Collections.Generic;
+
+class Investimento
+{
+    public double CapitalInicial { get; private set; }
+    public double TaxaJuros { get; private set; }
+    public int Meses { get; private set; }
+
+    public Investimento(double capitalInicial, double taxaJuros, int meses)
+    {
+        CapitalInicial = capitalInicial;
+        TaxaJuros = taxaJuros / 100; // Convertendo percentual para decimal 
+        Meses = meses;
+    }
+
+    public void CalcularRendimentos(int dias)
+    {
+        double capitalAtual = CapitalInicial;
+        double totalRendimento = 0;
+        Console.WriteLine(" --------------- Tabela de investimentos --------------- ");
+        Console.WriteLine("\n| Mês | Capital Inicial | Rendimento Mensal | Capital Final | Resgate");
+
+
+
+        Console.WriteLine("---------------------------| Investe Fácil |---------------------------");
+        while (true)
+        {
+            Console.WriteLine("\nDigite o Valor Presente Investido (ou 'sair' para encerrar):");
+            string entrada = Console.ReadLine();
+            if (entrada.ToLower() == "sair") break;
+
+            if (double.TryParse(entrada, out double capital))
+            {
+                Console.WriteLine("Digite a Taxa de Juros:");
+                entrada = Console.ReadLine();
+                Console.WriteLine("------------------------------------------------------------ ");
+            }
+        }
+    }
+
+}
