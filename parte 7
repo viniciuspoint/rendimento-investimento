@@ -1,0 +1,114 @@
+using System;
+using System.Collections.Generic;
+
+class Investimento
+{
+    public double CapitalInicial { get; private set; }
+    public double TaxaJuros { get; private set; }
+    public int Meses { get; private set; }
+
+    public Investimento(double capitalInicial, double taxaJuros, int meses)
+    {
+        CapitalInicial = capitalInicial;
+        TaxaJuros = taxaJuros / 100; // Convertendo percentual para decimal 
+        Meses = meses;
+    }
+
+    public void CalcularRendimentos(int dias)
+    {
+        double capitalAtual = CapitalInicial;
+        double totalRendimento = 0;
+        Console.WriteLine(" --------------- Tabela de investimentos --------------- ");
+        Console.WriteLine("\n| Mês | Capital Inicial | Rendimento Mensal | Capital Final | Resgate");
+
+        for (int mes = 1; mes <= Meses; mes++)
+        {
+            double rendimentoMensal = capitalAtual * TaxaJuros; // Rendimento mensal 
+            capitalAtual += rendimentoMensal; // Atualiza o capital com o rendimento 
+            double resgate = 0;
+
+            // Verifica se o mês é o quinto 
+            if (mes == 5)
+            {
+                resgate = RealizarSaque(ref capitalAtual);
+            }
+
+            // Exibe a linha correspondente ao mês 
+            Console.WriteLine($"| {mes,3} | {CapitalInicial,14:F2} | {rendimentoMensal,18:F2} | {capitalAtual,14:F2} | {resgate,14:C2}");
+            totalRendimento += rendimentoMensal;
+        }
+
+        // Cálculo para os dias finais 
+        double taxaDiaria = TaxaJuros / 30; // Aproximando a taxa diária 
+        double rendimentoDias = capitalAtual * taxaDiaria * dias;
+        capitalAtual += rendimentoDias; // Atualiza o capital com o rendimento dos dias 
+        totalRendimento += rendimentoDias; // Acumula o rendimento total 
+
+        // Exibe a linha final com a taxa de juros 
+        Console.WriteLine($"| Total | {CapitalInicial,14:F2} | {totalRendimento,18:F2} | {capitalAtual,14:F2} |");
+        Console.WriteLine($"| Taxa  | {TaxaJuros * 100,14:F2}%");
+    }
+
+    private double RealizarSaque(ref double capitalAtual)
+    {
+        double resgate = 0;
+        Console.WriteLine("Gostaria de fazer um saque no 5° mês? (s/n)");
+        string opcaoResgate = Console.ReadLine().ToLower();
+
+        if (opcaoResgate == "s" || opcaoResgate == "sim")
+        {
+            Console.WriteLine("Digite o valor do resgate:");
+            while (!double.TryParse(Console.ReadLine(), out resgate) || resgate > capitalAtual)
+            {
+                Console.WriteLine($"Por Favor, digite um valor válido menor ou igual a {capitalAtual:C2}: ");
+            }
+            capitalAtual -= resgate; // Atualiza o capital após o resgate 
+        }
+
+        return resgate; // Retorna o valor do resgate 
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        List<Investimento> investimentos = new List<Investimento>();
+        const int meses = 8; // Definido como 8 meses para todos os investimentos 
+        const int dias = 10; // Definido como 10 dias para todos os investimentos 
+
+        Console.WriteLine("---------------------------| Investe Fácil |---------------------------");
+        while (true)
+        {
+            Console.WriteLine("\nDigite o Valor Presente Investido (ou 'sair' para encerrar):");
+            string entrada = Console.ReadLine();
+            if (entrada.ToLower() == "sair") break;
+
+            if (double.TryParse(entrada, out double capital))
+            {
+                Console.WriteLine("Digite a Taxa de Juros:");
+                entrada = Console.ReadLine();
+                Console.WriteLine("------------------------------------------------------------ ");
+                if (double.TryParse(entrada, out double taxa))
+                {
+                    investimentos.Add(new Investimento(capital, taxa, meses));
+                }
+                else
+                {
+                    Console.WriteLine("Taxa de juros inválida. Tente novamente.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Valor investido inválido. Tente novamente.");
+            }
+        }
+
+        Console.WriteLine("\nResultados dos Investimentos:");
+        foreach (var investimento in investimentos)
+        {
+            investimento.CalcularRendimentos(dias);
+            Console.ReadLine();
+        }
+    }
+}
